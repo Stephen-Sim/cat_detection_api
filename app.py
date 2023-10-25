@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input, decode_predictions
 from keras.preprocessing import image
-from keras.applications.mobilenet_v2 import preprocess_input
 
 import numpy as np
 import base64
@@ -52,7 +51,11 @@ def predict():
             return make_response(jsonify({'error': 'No image data received'}), 400)
     except Exception as e:
         return make_response(jsonify({'error': str(e)}), 500)
-    
+
+
+@app.route('/')
+def test():
+    return "Cat Detection API"   
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
