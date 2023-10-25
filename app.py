@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input, decode_predictions
-from keras.preprocessing import image
+from keras.preprocessing import image, load_img
 from keras.applications.mobilenet_v2 import preprocess_input
 
 import numpy as np
