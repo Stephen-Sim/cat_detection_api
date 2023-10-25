@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, make_response
-from keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input, decode_predictions
-from keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input, decode_predictions
+from tensorflow.keras.preprocessing import image
+from PIL import Image
 
 import numpy as np
 import base64
@@ -13,13 +14,14 @@ model = MobileNetV2(weights='imagenet')
 
 def is_cat(image_data):
     try:
-        # Create a BytesIO object
         image_io = io.BytesIO(image_data)
 
-        # Load and process the image
-        img = load_img(image_io, target_size=(224, 224))
-        x = img_to_array(img)
-        x = np.expand_dims(x, axis=0)
+        pil_image = Image.open(image_io)
+
+        pil_image = pil_image.resize((224, 224))
+
+        img = image.img_to_array(pil_image)
+        x = np.expand_dims(img, axis=0)
         x = preprocess_input(x)
 
         preds = model.predict(x)
